@@ -8,7 +8,7 @@
     <groupId>com.stride</groupId>
     <artifactId>goalnest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>GoalNest</name>
     <description>Lightweight manager app for goals, leaves, and tasks</description>
@@ -27,6 +27,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,6 +67,7 @@
     </dependencies>
 
     <build>
+        <finalName>goalnest</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
