@@ -1,0 +1,74 @@
+name: Build and Deploy WAR to Linux Server
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build WAR file
+      run: |
+        cd GoalNest
+        mvn package -DskipTests
+
+    - name: List target directory (for debugging)
+      run: |
+        cd GoalNest
+        ls -la target/
+
+    - name: Deploy to Linux Server
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        source: "GoalNest/target/goalnest.war"
+        target: "/tmp/"
+        strip_components: 2
+
+    - name: Replace WAR file on Server
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        script: |
+          # Backup existing WAR file
+          sudo cp /var/lib/tomcat9/webapps/goalnest.war /var/lib/tomcat9/webapps/goalnest.war.backup.$(date +%Y%m%d_%H%M%S) || true
+
+          # Remove old deployment directory (Tomcat will auto-redeploy)
+          sudo rm -rf /var/lib/tomcat9/webapps/goalnest/ || true
+
+          # Replace WAR file
+          sudo cp /tmp/goalnest.war /var/lib/tomcat9/webapps/goalnest.war
+
+          # Set proper permissions
+          sudo chown tomcat:tomcat /var/lib/tomcat9/webapps/goalnest.war
+
+          # Clean up temporary file
+          rm -f /tmp/goalnest.war
+
+          echo "WAR file deployed successfully. Tomcat will auto-redeploy."
