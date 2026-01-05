@@ -1,3 +1,4 @@
+
 package com.stride.goalnest;
 
 import org.springframework.boot.SpringApplication;
