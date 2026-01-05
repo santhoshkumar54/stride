@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GoalNest Dashboard</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .card { padding: 20px; border: 1px solid #ddd; margin-bottom: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+<h1>GoalNest</h1>
+<p>Your lightweight manager cockpit</p>
+
+<div class="card">Leaves pending: <b th:text="${leaves}"></b></div>
+<div class="card">Open tasks: <b th:text="${tasks}"></b></div>
+<div class="card">Active goals: <b th:text="${goals}"></b></div>
+
+</body>
+</html>
