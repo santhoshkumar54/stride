@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Role Rating</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        form { width: 300px; }
+        label { display: block; margin-top: 10px; }
+        input, select, textarea { width: 100%; padding: 5px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px; }
+        .menu { margin-bottom: 20px; }
+        .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1>Add Role Rating</h1>
+<div class="menu">
+    <a href="/ratings">Back to List</a>
+</div>
+
+<form action="/ratings" method="post" th:object="${roleRating}">
+    <label>Employee</label>
+    <select th:field="*{employee}">
+        <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}"></option>
+    </select>
+
+    <label>Criteria</label>
+    <input type="text" th:field="*{criteria}" required />
+
+    <label>Score</label>
+    <input type="number" th:field="*{score}" min="1" max="10" required />
+
+    <button type="submit">Save</button>
+</form>
+
+</body>
+</html>

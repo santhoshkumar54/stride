@@ -1,5 +1,5 @@
 
-package com.example.goalnest;
+package com.stride.goalnest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

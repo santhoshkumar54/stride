@@ -1,0 +1,17 @@
+/app/GoalNest/src/main/java/com/stride/goalnest/model/Goal.java
+/app/GoalNest/src/main/java/com/stride/goalnest/repository/FollowUpRepository.java
+/app/GoalNest/src/main/java/com/stride/goalnest/model/PerformancePoint.java
+/app/GoalNest/src/main/java/com/stride/goalnest/repository/TalkingPointRepository.java
+/app/GoalNest/src/main/java/com/stride/goalnest/repository/EmployeeRepository.java
+/app/GoalNest/src/main/java/com/stride/goalnest/model/TalkingPoint.java
+/app/GoalNest/src/main/java/com/stride/goalnest/model/RoleRating.java
+/app/GoalNest/src/main/java/com/stride/goalnest/model/FollowUp.java
+/app/GoalNest/src/main/java/com/stride/goalnest/DashboardController.java
+/app/GoalNest/src/main/java/com/stride/goalnest/model/LeaveRequest.java
+/app/GoalNest/src/main/java/com/stride/goalnest/repository/GoalRepository.java
+/app/GoalNest/src/main/java/com/stride/goalnest/repository/PerformancePointRepository.java
+/app/GoalNest/src/main/java/com/stride/goalnest/model/Employee.java
+/app/GoalNest/src/main/java/com/stride/goalnest/repository/RoleRatingRepository.java
+/app/GoalNest/src/main/java/com/stride/goalnest/service/GoalNestService.java
+/app/GoalNest/src/main/java/com/stride/goalnest/repository/LeaveRequestRepository.java
+/app/GoalNest/src/main/java/com/stride/goalnest/GoalNestApplication.java

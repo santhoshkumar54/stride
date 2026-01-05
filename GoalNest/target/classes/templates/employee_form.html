@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Employee</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        form { width: 300px; }
+        label { display: block; margin-top: 10px; }
+        input { width: 100%; padding: 5px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px; }
+        .menu { margin-bottom: 20px; }
+        .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1>Add Employee</h1>
+<div class="menu">
+    <a href="/employees">Back to List</a>
+</div>
+
+<form action="/employees" method="post" th:object="${employee}">
+    <label>Name</label>
+    <input type="text" th:field="*{name}" required />
+
+    <label>Role</label>
+    <input type="text" th:field="*{role}" required />
+
+    <label>Email</label>
+    <input type="email" th:field="*{email}" required />
+
+    <button type="submit">Save</button>
+</form>
+
+</body>
+</html>
