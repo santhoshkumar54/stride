@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Performance Points</title>
     <style>
@@ -16,7 +16,9 @@
 <h1>Performance Points</h1>
 <div class="menu">
     <a href="/">Dashboard</a>
-    <a href="/points/new">Add Points</a>
+    <span sec:authorize="hasAnyRole('MANAGER', 'SCRUM_MASTER')">
+        <a href="/points/new">Add Points</a>
+    </span>
 </div>
 
 <table>

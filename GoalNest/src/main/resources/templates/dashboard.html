@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>GoalNest Dashboard</title>
     <style>
@@ -8,9 +8,17 @@
         .card { padding: 20px; border: 1px solid #ddd; margin-bottom: 15px; border-radius: 8px; display: inline-block; width: 200px; margin-right: 15px; vertical-align: top;}
         .menu { margin-bottom: 20px; }
         .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
+        .user-info { float: right; }
     </style>
 </head>
 <body>
+<div class="user-info">
+    Logged in as: <span sec:authentication="name">User</span>
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
 <h1>GoalNest</h1>
 <p>Your lightweight manager cockpit</p>
 
