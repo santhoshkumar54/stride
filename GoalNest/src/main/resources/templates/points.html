@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Performance Points</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .menu { margin-bottom: 20px; }
+        .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1>Performance Points</h1>
+<div class="menu">
+    <a href="/">Dashboard</a>
+    <a href="/points/new">Add Points</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Employee</th>
+        <th>Date</th>
+        <th>Points</th>
+        <th>Reason</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pt : ${points}">
+        <td th:text="${pt.employee != null} ? ${pt.employee.name} : 'Unknown'"></td>
+        <td th:text="${pt.date}"></td>
+        <td th:text="${pt.points}"></td>
+        <td th:text="${pt.reason}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
