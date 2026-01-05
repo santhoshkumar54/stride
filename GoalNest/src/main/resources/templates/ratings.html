@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Role Ratings</title>
     <style>
@@ -16,7 +16,9 @@
 <h1>Role Ratings</h1>
 <div class="menu">
     <a href="/">Dashboard</a>
-    <a href="/ratings/new">Add Rating</a>
+    <span sec:authorize="hasAnyRole('MANAGER', 'SCRUM_MASTER')">
+        <a href="/ratings/new">Add Rating</a>
+    </span>
 </div>
 
 <table>

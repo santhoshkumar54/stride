@@ -10,16 +10,18 @@ public class Employee {
     private Long id;
 
     private String name;
-    private String role;
+    private String role; // MANAGER, SCRUM_MASTER, ENGINEER
     private String email;
+    private String password;
 
     public Employee() {
     }
 
-    public Employee(String name, String role, String email) {
+    public Employee(String name, String role, String email, String password) {
         this.name = name;
         this.role = role;
         this.email = email;
+        this.password = password;
     }
 
     public Long getId() {
@@ -52,5 +54,13 @@ public class Employee {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
