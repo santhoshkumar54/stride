@@ -1,44 +1,33 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Add Talking Point</title>
-    <style>
-        body { font-family: Arial; margin: 40px; }
-        form { width: 300px; }
-        label { display: block; margin-top: 10px; }
-        input, select, textarea { width: 100%; padding: 5px; margin-top: 5px; }
-        button { margin-top: 15px; padding: 10px; }
-        .menu { margin-bottom: 20px; }
-        .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(~{::body})">
 <body>
-<h1>Add Talking Point</h1>
-<div class="menu">
-    <a href="/talkingpoints">Back to List</a>
-</div>
+    <h1>Add Talking Point</h1>
+    <div style="margin-bottom: 20px;">
+        <a th:href="@{/talkingpoints}" class="btn-secondary">&larr; Back to List</a>
+    </div>
 
-<form action="/talkingpoints" method="post" th:object="${talkingPoint}">
-    <label>Employee</label>
-    <select th:field="*{employee}">
-        <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}"></option>
-    </select>
+    <form th:action="@{/talkingpoints}" method="post" th:object="${talkingPoint}">
+        <label>Employee</label>
+        <select th:field="*{employee}">
+            <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}"></option>
+        </select>
 
-    <label>Date</label>
-    <input type="date" th:field="*{createdDate}" required />
+        <label>Date</label>
+        <input type="date" th:field="*{createdDate}" required />
 
-    <label>Topic</label>
-    <textarea th:field="*{topic}" required></textarea>
+        <label>Topic</label>
+        <textarea th:field="*{topic}" required rows="4"></textarea>
 
-    <label>Discussed?</label>
-    <select th:field="*{isDiscussed}">
-        <option value="false">No</option>
-        <option value="true">Yes</option>
-    </select>
+        <label>Discussed?</label>
+        <select th:field="*{isDiscussed}">
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+        </select>
 
-    <button type="submit">Save</button>
-</form>
-
+        <div style="margin-top: 20px;">
+            <button type="submit" class="btn-primary">Save Talking Point</button>
+        </div>
+    </form>
 </body>
 </html>

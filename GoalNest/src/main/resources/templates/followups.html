@@ -1,44 +1,37 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <title>Follow Ups</title>
-    <style>
-        body { font-family: Arial; margin: 40px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .menu { margin-bottom: 20px; }
-        .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="fragments/layout :: layout(~{::body})">
 <body>
-<h1>Follow Ups</h1>
-<div class="menu">
-    <a href="/">Dashboard</a>
-    <span sec:authorize="hasAnyRole('MANAGER', 'SCRUM_MASTER')">
-        <a href="/followups/new">Add Follow Up</a>
-    </span>
-</div>
+    <div class="actions">
+        <span sec:authorize="hasAnyRole('MANAGER', 'SCRUM_MASTER')">
+            <a th:href="@{/followups/new}" class="btn-primary">+ Add Follow Up</a>
+        </span>
+    </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>Employee</th>
-        <th>Date</th>
-        <th>Topic</th>
-        <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="fu : ${followUps}">
-        <td th:text="${fu.employee != null} ? ${fu.employee.name} : 'Unknown'"></td>
-        <td th:text="${fu.date}"></td>
-        <td th:text="${fu.topic}"></td>
-        <td th:text="${fu.status}"></td>
-    </tr>
-    </tbody>
-</table>
+    <h1>Follow Ups</h1>
 
+    <table>
+        <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Date</th>
+            <th>Topic</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="fu : ${followUps}">
+            <td th:text="${fu.employee != null} ? ${fu.employee.name} : 'Unknown'"></td>
+            <td th:text="${fu.date}"></td>
+            <td th:text="${fu.topic}"></td>
+            <td>
+                <span th:text="${fu.status}"
+                      th:style="${fu.status == 'DONE'} ? 'color: var(--success-color); font-weight: bold;' :
+                               (${fu.status == 'PENDING'} ? 'color: var(--danger-color); font-weight: bold;' : 'color: var(--text-light);')">
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>
