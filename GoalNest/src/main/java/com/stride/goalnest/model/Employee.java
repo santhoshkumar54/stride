@@ -1,6 +1,6 @@
 package com.stride.goalnest.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class Employee {
