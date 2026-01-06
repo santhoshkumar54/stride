@@ -25,22 +25,22 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 // Static resources
-                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 // H2 Console
-                .requestMatchers("/h2-console/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
 
                 // Read-only access for everyone (including Engineers)
-                .requestMatchers(HttpMethod.GET, "/").authenticated()
-                .requestMatchers(HttpMethod.GET, "/employees", "/leaves", "/goals", "/followups", "/points", "/talkingpoints", "/ratings").authenticated()
+                .antMatchers(HttpMethod.GET, "/").authenticated()
+                .antMatchers(HttpMethod.GET, "/employees", "/leaves", "/goals", "/followups", "/points", "/talkingpoints", "/ratings").authenticated()
 
                 // Create forms and Save actions restricted to Manager/Scrum Master
-                .requestMatchers("/employees/new", "/employees").hasAnyRole("MANAGER", "SCRUM_MASTER")
-                .requestMatchers("/leaves/new", "/leaves").hasAnyRole("MANAGER", "SCRUM_MASTER")
-                .requestMatchers("/goals/new", "/goals").hasAnyRole("MANAGER", "SCRUM_MASTER")
-                .requestMatchers("/followups/new", "/followups").hasAnyRole("MANAGER", "SCRUM_MASTER")
-                .requestMatchers("/points/new", "/points").hasAnyRole("MANAGER", "SCRUM_MASTER")
-                .requestMatchers("/talkingpoints/new", "/talkingpoints").hasAnyRole("MANAGER", "SCRUM_MASTER")
-                .requestMatchers("/ratings/new", "/ratings").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers("/employees/new", "/employees").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers("/leaves/new", "/leaves").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers("/goals/new", "/goals").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers("/followups/new", "/followups").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers("/points/new", "/points").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers("/talkingpoints/new", "/talkingpoints").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers("/ratings/new", "/ratings").hasAnyRole("MANAGER", "SCRUM_MASTER")
 
                 // Any other request needs authentication
                 .anyRequest().authenticated()
@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             // Fix for H2 console
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+            .csrf(csrf -> csrf.ignoringAntMatchers("/h2-console/**"))
             .headers(headers -> headers.frameOptions().disable());
 
         return http.build();
