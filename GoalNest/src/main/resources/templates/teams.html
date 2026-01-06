@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="fragments/layout :: layout(~{::body})">
+<body>
+    <div class="actions">
+        <span sec:authorize="hasAnyRole('MANAGER', 'SCRUM_MASTER')">
+            <a th:href="@{/teams/new}" class="btn-primary">+ Create Team</a>
+        </span>
+    </div>
+
+    <h1>Teams</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Team Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="team : ${teams}">
+            <td th:text="${team.name}"></td>
+            <td>
+                <a th:href="@{'/teams/' + ${team.id}}" class="btn-secondary">View Details</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

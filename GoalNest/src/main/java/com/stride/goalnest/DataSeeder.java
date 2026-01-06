@@ -20,7 +20,10 @@ public class DataSeeder {
                         "Alice Manager",
                         "MANAGER",
                         "manager@stride.com",
-                        passwordEncoder.encode("password")
+                        passwordEncoder.encode("password"),
+                        "M",
+                        "Management",
+                        "alice_gh"
                 ));
 
                 // Create Scrum Master
@@ -28,7 +31,10 @@ public class DataSeeder {
                         "Bob ScrumMaster",
                         "SCRUM_MASTER",
                         "sm@stride.com",
-                        passwordEncoder.encode("password")
+                        passwordEncoder.encode("password"),
+                        "SM",
+                        "Management",
+                        "bob_gh"
                 ));
 
                 // Create Engineer
@@ -36,7 +42,10 @@ public class DataSeeder {
                         "Charlie Engineer",
                         "ENGINEER",
                         "dev@stride.com",
-                        passwordEncoder.encode("password")
+                        passwordEncoder.encode("password"),
+                        "T2A",
+                        "Full stack developer",
+                        "charlie_gh"
                 ));
 
                 System.out.println("Default users created: manager@stride.com, sm@stride.com, dev@stride.com (password: password)");

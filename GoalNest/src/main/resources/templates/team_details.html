@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="fragments/layout :: layout(~{::body})">
+<body>
+    <div style="margin-bottom: 20px;">
+        <a th:href="@{/teams}" class="btn-secondary">&larr; Back to Teams</a>
+    </div>
+
+    <h1 th:text="${team.name}">Team Name</h1>
+
+    <div sec:authorize="hasAnyRole('MANAGER', 'SCRUM_MASTER')" style="margin-top: 20px; border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+        <h3>Add Member</h3>
+        <form th:action="@{'/teams/' + ${team.id} + '/members'}" method="post">
+            <label>Employee</label>
+            <select name="employeeId" required>
+                <option value="" disabled selected>Select Employee</option>
+                <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}"></option>
+            </select>
+
+            <label>Role in Team</label>
+            <input type="text" name="roleInTeam" required placeholder="e.g. Lead Developer"/>
+
+            <label>Start Date</label>
+            <input type="date" name="startDate" required/>
+
+            <div style="margin-top: 10px;">
+                <button type="submit" class="btn-primary">Add Member</button>
+            </div>
+        </form>
+    </div>
+
+    <h3>Current Members & History</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Role</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mem : ${memberships}">
+            <td th:text="${mem.employee.name}"></td>
+            <td th:text="${mem.roleInTeam}"></td>
+            <td th:text="${mem.startDate}"></td>
+            <td th:text="${mem.endDate != null} ? ${mem.endDate} : 'Current'"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

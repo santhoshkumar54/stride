@@ -12,10 +12,43 @@
         <input type="text" th:field="*{name}" required placeholder="e.g. John Doe"/>
 
         <label>Role</label>
-        <input type="text" th:field="*{role}" required placeholder="e.g. ENGINEER"/>
+        <select th:field="*{role}" required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="MANAGER">MANAGER</option>
+            <option value="SCRUM_MASTER">SCRUM_MASTER</option>
+            <option value="ENGINEER">ENGINEER</option>
+        </select>
+
+        <label>Job Level</label>
+        <select th:field="*{jobLevel}" required>
+            <option value="" disabled selected>Select Level</option>
+            <option value="T1A">T1A</option>
+            <option value="T1B">T1B</option>
+            <option value="T2A">T2A</option>
+            <option value="T2B">T2B</option>
+            <option value="T3A">T3A</option>
+            <option value="T3B">T3B</option>
+            <option value="T4">T4</option>
+            <option value="T5">T5</option>
+            <option value="SM">SM</option>
+            <option value="M">M</option>
+        </select>
+
+        <label>Type</label>
+        <select th:field="*{employeeType}" required>
+            <option value="" disabled selected>Select Type</option>
+            <option value="Front end developer">Front end developer</option>
+            <option value="Back end developer">Back end developer</option>
+            <option value="Full stack developer">Full stack developer</option>
+            <option value="Management">Management</option>
+            <option value="QA">QA</option>
+        </select>
 
         <label>Email</label>
         <input type="email" th:field="*{email}" required placeholder="e.g. john@example.com"/>
+
+        <label>Github Username</label>
+        <input type="text" th:field="*{githubUsername}" required placeholder="e.g. johndoe"/>
 
         <div style="margin-top: 20px;">
             <button type="submit" class="btn-primary">Save Employee</button>
