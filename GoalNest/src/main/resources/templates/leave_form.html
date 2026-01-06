@@ -1,48 +1,37 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Request Leave</title>
-    <style>
-        body { font-family: Arial; margin: 40px; }
-        form { width: 300px; }
-        label { display: block; margin-top: 10px; }
-        input, select, textarea { width: 100%; padding: 5px; margin-top: 5px; }
-        button { margin-top: 15px; padding: 10px; }
-        .menu { margin-bottom: 20px; }
-        .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(~{::body})">
 <body>
-<h1>Request Leave</h1>
-<div class="menu">
-    <a href="/leaves">Back to List</a>
-</div>
+    <h1>Request Leave</h1>
+    <div style="margin-bottom: 20px;">
+        <a th:href="@{/leaves}" class="btn-secondary">&larr; Back to List</a>
+    </div>
 
-<form action="/leaves" method="post" th:object="${leaveRequest}">
-    <label>Employee</label>
-    <select th:field="*{employee}">
-        <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}"></option>
-    </select>
+    <form th:action="@{/leaves}" method="post" th:object="${leaveRequest}">
+        <label>Employee</label>
+        <select th:field="*{employee}">
+            <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}"></option>
+        </select>
 
-    <label>Start Date</label>
-    <input type="date" th:field="*{startDate}" required />
+        <label>Start Date</label>
+        <input type="date" th:field="*{startDate}" required />
 
-    <label>End Date</label>
-    <input type="date" th:field="*{endDate}" required />
+        <label>End Date</label>
+        <input type="date" th:field="*{endDate}" required />
 
-    <label>Reason</label>
-    <textarea th:field="*{reason}"></textarea>
+        <label>Reason</label>
+        <textarea th:field="*{reason}" rows="4" placeholder="Brief reason for leave..."></textarea>
 
-    <label>Status</label>
-    <select th:field="*{status}">
-        <option value="PENDING">Pending</option>
-        <option value="APPROVED">Approved</option>
-        <option value="REJECTED">Rejected</option>
-    </select>
+        <label>Status</label>
+        <select th:field="*{status}">
+            <option value="PENDING">Pending</option>
+            <option value="APPROVED">Approved</option>
+            <option value="REJECTED">Rejected</option>
+        </select>
 
-    <button type="submit">Save</button>
-</form>
-
+        <div style="margin-top: 20px;">
+            <button type="submit" class="btn-primary">Submit Request</button>
+        </div>
+    </form>
 </body>
 </html>

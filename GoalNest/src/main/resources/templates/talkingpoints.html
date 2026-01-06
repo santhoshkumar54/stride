@@ -1,44 +1,36 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <title>1:1 Talking Points</title>
-    <style>
-        body { font-family: Arial; margin: 40px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .menu { margin-bottom: 20px; }
-        .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="fragments/layout :: layout(~{::body})">
 <body>
-<h1>1:1 Talking Points</h1>
-<div class="menu">
-    <a href="/">Dashboard</a>
-    <span sec:authorize="hasAnyRole('MANAGER', 'SCRUM_MASTER')">
-        <a href="/talkingpoints/new">Add Talking Point</a>
-    </span>
-</div>
+    <div class="actions">
+        <span sec:authorize="hasAnyRole('MANAGER', 'SCRUM_MASTER')">
+            <a th:href="@{/talkingpoints/new}" class="btn-primary">+ Add Talking Point</a>
+        </span>
+    </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>Employee</th>
-        <th>Date</th>
-        <th>Topic</th>
-        <th>Discussed?</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="tp : ${talkingPoints}">
-        <td th:text="${tp.employee != null} ? ${tp.employee.name} : 'Unknown'"></td>
-        <td th:text="${tp.createdDate}"></td>
-        <td th:text="${tp.topic}"></td>
-        <td th:text="${tp.isDiscussed} ? 'Yes' : 'No'"></td>
-    </tr>
-    </tbody>
-</table>
+    <h1>1:1 Talking Points</h1>
 
+    <table>
+        <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Date</th>
+            <th>Topic</th>
+            <th>Discussed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tp : ${talkingPoints}">
+            <td th:text="${tp.employee != null} ? ${tp.employee.name} : 'Unknown'"></td>
+            <td th:text="${tp.createdDate}"></td>
+            <td th:text="${tp.topic}"></td>
+            <td>
+                <span th:text="${tp.isDiscussed} ? 'Yes' : 'No'"
+                      th:style="${tp.isDiscussed} ? 'color: var(--success-color); font-weight: bold;' : 'color: var(--danger-color); font-weight: bold;'">
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>

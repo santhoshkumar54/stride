@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoalNest</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <a th:href="@{/}">Goal<span>Nest</span></a>
+    </div>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}" th:classappend="${#httpServletRequest.requestURI == '/'} ? 'active'">Dashboard</a></li>
+            <li><a th:href="@{/employees}" th:classappend="${#httpServletRequest.requestURI.startsWith('/employees')} ? 'active'">Employees</a></li>
+            <li><a th:href="@{/leaves}" th:classappend="${#httpServletRequest.requestURI.startsWith('/leaves')} ? 'active'">Leaves</a></li>
+            <li><a th:href="@{/goals}" th:classappend="${#httpServletRequest.requestURI.startsWith('/goals')} ? 'active'">Goals</a></li>
+            <li><a th:href="@{/followups}" th:classappend="${#httpServletRequest.requestURI.startsWith('/followups')} ? 'active'">Follow Ups</a></li>
+            <li><a th:href="@{/points}" th:classappend="${#httpServletRequest.requestURI.startsWith('/points')} ? 'active'">Points</a></li>
+            <li><a th:href="@{/talkingpoints}" th:classappend="${#httpServletRequest.requestURI.startsWith('/talkingpoints')} ? 'active'">1:1s</a></li>
+            <li><a th:href="@{/ratings}" th:classappend="${#httpServletRequest.requestURI.startsWith('/ratings')} ? 'active'">Ratings</a></li>
+        </ul>
+    </nav>
+    <div class="user-controls">
+        <span sec:authentication="name">User</span>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Insert the content fragment passed as argument -->
+    <div th:replace="${content}">
+        <p>Page content goes here...</p>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; color: var(--text-light); font-size: 0.9rem; margin-top: 40px;">
+        &copy; 2024 Stride GoalNest. All rights reserved.
+    </div>
+</footer>
+
+</body>
+</html>

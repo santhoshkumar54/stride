@@ -1,53 +1,36 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <title>GoalNest Dashboard</title>
-    <style>
-        body { font-family: Arial; margin: 40px; }
-        .card { padding: 20px; border: 1px solid #ddd; margin-bottom: 15px; border-radius: 8px; display: inline-block; width: 200px; margin-right: 15px; vertical-align: top;}
-        .menu { margin-bottom: 20px; }
-        .menu a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
-        .user-info { float: right; }
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(~{::body})">
 <body>
-<div class="user-info">
-    Logged in as: <span sec:authentication="name">User</span>
-    <form th:action="@{/logout}" method="post" style="display:inline;">
-        <button type="submit">Logout</button>
-    </form>
-</div>
+    <h1>GoalNest Dashboard</h1>
+    <p style="margin-bottom: 30px; color: var(--text-light);">Your lightweight manager cockpit</p>
 
-<h1>GoalNest</h1>
-<p>Your lightweight manager cockpit</p>
-
-<div class="menu">
-    <a href="/">Dashboard</a>
-    <a href="/employees">Employees</a>
-    <a href="/leaves">Leaves</a>
-    <a href="/goals">Goals</a>
-    <a href="/followups">Follow Ups</a>
-    <a href="/points">Points</a>
-    <a href="/talkingpoints">1:1 Talking Points</a>
-    <a href="/ratings">Role Ratings</a>
-</div>
-
-<div class="card">
-    <h3>Leaves</h3>
-    <p>Pending: <b th:text="${leaves}"></b></p>
-    <a href="/leaves">Manage</a>
-</div>
-<div class="card">
-    <h3>Goals</h3>
-    <p>Active: <b th:text="${goals}"></b></p>
-    <a href="/goals">Manage</a>
-</div>
-<div class="card">
-    <h3>Follow Ups</h3>
-    <p>Pending: <b th:text="${followups}"></b></p>
-    <a href="/followups">Manage</a>
-</div>
-
+    <div class="card-container">
+        <div class="card">
+            <h3>Leaves</h3>
+            <div class="card-stat" th:text="${leaves}">0</div>
+            <p>Pending Approvals</p>
+            <a th:href="@{/leaves}" class="card-action">Manage Leaves &rarr;</a>
+        </div>
+        <div class="card">
+            <h3>Goals</h3>
+            <div class="card-stat" th:text="${goals}">0</div>
+            <p>Active Goals</p>
+            <a th:href="@{/goals}" class="card-action">Manage Goals &rarr;</a>
+        </div>
+        <div class="card">
+            <h3>Follow Ups</h3>
+            <div class="card-stat" th:text="${followups}">0</div>
+            <p>Pending Actions</p>
+            <a th:href="@{/followups}" class="card-action">Manage Follow Ups &rarr;</a>
+        </div>
+        <!-- Adding more cards to fill the dashboard and make it look professional -->
+        <div class="card">
+            <h3>Employees</h3>
+            <div class="card-stat">-</div>
+            <p>Team Members</p>
+            <a th:href="@{/employees}" class="card-action">View Team &rarr;</a>
+        </div>
+    </div>
 </body>
 </html>
