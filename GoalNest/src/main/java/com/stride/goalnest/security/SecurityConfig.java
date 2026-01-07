@@ -42,6 +42,12 @@ public class SecurityConfig {
                 .antMatchers("/talkingpoints/new", "/talkingpoints").hasAnyRole("MANAGER", "SCRUM_MASTER")
                 .antMatchers("/ratings/new", "/ratings").hasAnyRole("MANAGER", "SCRUM_MASTER")
 
+                // Teams
+                .antMatchers("/teams/new").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers(HttpMethod.POST, "/teams").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers("/teams/*/members").hasAnyRole("MANAGER", "SCRUM_MASTER")
+                .antMatchers(HttpMethod.GET, "/teams", "/teams/**").authenticated()
+
                 // Any other request needs authentication
                 .anyRequest().authenticated()
             )

@@ -15,14 +15,20 @@
         <tr>
             <th>Name</th>
             <th>Role</th>
+            <th>Job Level</th>
+            <th>Type</th>
             <th>Email</th>
+            <th>Github</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="emp : ${employees}">
             <td th:text="${emp.name}"></td>
             <td th:text="${emp.role}"></td>
+            <td th:text="${emp.jobLevel}"></td>
+            <td th:text="${emp.employeeType}"></td>
             <td th:text="${emp.email}"></td>
+            <td th:text="${emp.githubUsername}"></td>
         </tr>
         </tbody>
     </table>
