@@ -23,7 +23,9 @@
         </thead>
         <tbody>
         <tr th:each="emp : ${employees}">
-            <td th:text="${emp.name}"></td>
+            <td>
+                <a th:href="@{'/employees/' + ${emp.id}}" th:text="${emp.name}" style="color: #007bff; text-decoration: none;"></a>
+            </td>
             <td th:text="${emp.role}"></td>
             <td th:text="${emp.jobLevel}"></td>
             <td th:text="${emp.employeeType}"></td>
