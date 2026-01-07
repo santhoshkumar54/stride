@@ -2,8 +2,10 @@ package com.stride.goalnest.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stride.goalnest.model.Employee;
 import com.stride.goalnest.model.IngestedPullRequest;
 import com.stride.goalnest.model.RepoConfig;
+import com.stride.goalnest.repository.EmployeeRepository;
 import com.stride.goalnest.repository.IngestedPullRequestRepository;
 import com.stride.goalnest.repository.RepoConfigRepository;
 import com.stride.goalnest.service.dto.GitHubPRDTO;
@@ -16,6 +18,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class IngestionJob {
@@ -26,15 +30,18 @@ public class IngestionJob {
     private final IngestedPullRequestRepository ingestedPullRequestRepository;
     private final GitHubService gitHubService;
     private final ObjectMapper objectMapper;
+    private final EmployeeRepository employeeRepository;
 
     public IngestionJob(RepoConfigRepository repoConfigRepository,
                         IngestedPullRequestRepository ingestedPullRequestRepository,
                         GitHubService gitHubService,
-                        ObjectMapper objectMapper) {
+                        ObjectMapper objectMapper,
+                        EmployeeRepository employeeRepository) {
         this.repoConfigRepository = repoConfigRepository;
         this.ingestedPullRequestRepository = ingestedPullRequestRepository;
         this.gitHubService = gitHubService;
         this.objectMapper = objectMapper;
+        this.employeeRepository = employeeRepository;
     }
 
     @Scheduled(cron = "0 0 1 * * ?") // Daily at 1 AM
@@ -61,6 +68,13 @@ public class IngestionJob {
         // We should treat null watermark as "very old date" or handle it.
         // For simplicity, if null, we assume we fetch everything.
 
+        List<Employee> employees = employeeRepository.findAll();
+        Set<String> employeeUsernames = employees.stream()
+                .map(Employee::getGithubUsername)
+                .filter(username -> username != null && !username.trim().isEmpty())
+                .map(String::toLowerCase)
+                .collect(Collectors.toSet());
+
         List<GitHubPRDTO> candidatePRs = new ArrayList<>();
         int page = 1;
         boolean keepFetching = true;
@@ -77,7 +91,12 @@ public class IngestionJob {
 
                 if (pr.getMergedAt() != null) {
                     if (watermark == null || !pr.getMergedAt().isBefore(watermark)) {
-                         candidatePRs.add(pr);
+                        if (pr.getUser() != null && pr.getUser().getLogin() != null) {
+                            String prUser = pr.getUser().getLogin().toLowerCase();
+                            if (employeeUsernames.contains(prUser)) {
+                                candidatePRs.add(pr);
+                            }
+                        }
                     }
                 }
             }
