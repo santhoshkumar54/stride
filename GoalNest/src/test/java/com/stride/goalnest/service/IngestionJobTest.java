@@ -37,13 +37,16 @@ class IngestionJobTest {
     @Mock
     private GitHubService gitHubService;
 
+    @Mock
+    private com.stride.goalnest.repository.EmployeeRepository employeeRepository;
+
     private IngestionJob ingestionJob;
 
     @BeforeEach
     void setUp() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        ingestionJob = new IngestionJob(repoConfigRepository, ingestedPullRequestRepository, gitHubService, objectMapper);
+        ingestionJob = new IngestionJob(repoConfigRepository, ingestedPullRequestRepository, gitHubService, objectMapper, employeeRepository);
     }
 
     @Test
@@ -54,6 +57,11 @@ class IngestionJobTest {
 
         // Mock GitHub PRs
         GitHubPRDTO pr1 = createPR(101, "First PR", "2023-01-01T10:00:00Z", "2023-01-01T12:00:00Z");
+
+        // Mock Employee
+        com.stride.goalnest.model.Employee employee = new com.stride.goalnest.model.Employee();
+        employee.setGithubUsername("user101");
+        when(employeeRepository.findAll()).thenReturn(List.of(employee));
 
         when(gitHubService.fetchPullRequests(eq(repo), eq(1))).thenReturn(Collections.singletonList(pr1));
         when(gitHubService.fetchPullRequests(eq(repo), eq(2))).thenReturn(Collections.emptyList()); // End of pages
@@ -73,6 +81,42 @@ class IngestionJobTest {
     }
 
     @Test
+    void ingestRepo_shouldSkipPRsFromUnknownUsers() {
+        RepoConfig repo = new RepoConfig("owner", "repo", null, true);
+        repo.setId(1L);
+
+        // PR1: From known user
+        GitHubPRDTO pr1 = createPR(101, "Known User PR", "2023-01-01T10:00:00Z", "2023-01-01T12:00:00Z");
+        pr1.getUser().setLogin("knownUser");
+
+        // PR2: From unknown user
+        GitHubPRDTO pr2 = createPR(102, "Unknown User PR", "2023-01-02T10:00:00Z", "2023-01-02T12:00:00Z");
+        pr2.getUser().setLogin("unknownUser");
+
+        // Mock Employee
+        com.stride.goalnest.model.Employee employee = new com.stride.goalnest.model.Employee();
+        employee.setGithubUsername("knownUser");
+        when(employeeRepository.findAll()).thenReturn(List.of(employee));
+
+        when(gitHubService.fetchPullRequests(eq(repo), eq(1))).thenReturn(List.of(pr1, pr2));
+        when(gitHubService.fetchPullRequests(eq(repo), eq(2))).thenReturn(Collections.emptyList());
+
+        // Mock details for pr1 (only one expected to be processed)
+        when(gitHubService.fetchReviews(eq(repo), eq(101))).thenReturn("[]");
+        when(gitHubService.fetchComments(eq(repo), eq(101))).thenReturn("[]");
+        when(gitHubService.fetchCommits(eq(repo), eq(101))).thenReturn("[]");
+        when(gitHubService.fetchCIStatus(eq(repo), anyString())).thenReturn("{}");
+
+        when(ingestedPullRequestRepository.existsByRepoIdAndPrNumber(eq(1L), eq(101))).thenReturn(false);
+
+        ingestionJob.ingestRepo(repo);
+
+        // Verify only 1 PR was saved
+        verify(ingestedPullRequestRepository, times(1)).save(any(IngestedPullRequest.class));
+        verify(gitHubService, never()).fetchReviews(eq(repo), eq(102));
+    }
+
+    @Test
     void ingestRepo_shouldStopAtWatermark() {
         OffsetDateTime watermark = OffsetDateTime.parse("2023-01-02T00:00:00Z");
         RepoConfig repo = new RepoConfig("owner", "repo", watermark, true);
@@ -83,6 +127,11 @@ class IngestionJobTest {
 
         // PR2: Updated before watermark -> Should stop fetching
         GitHubPRDTO pr2 = createPR(101, "Old PR", "2023-01-01T10:00:00Z", "2023-01-01T12:00:00Z");
+
+        // Mock Employee for PR1 user
+        com.stride.goalnest.model.Employee employee = new com.stride.goalnest.model.Employee();
+        employee.setGithubUsername("user102"); // default createPR user format
+        when(employeeRepository.findAll()).thenReturn(List.of(employee));
 
         when(gitHubService.fetchPullRequests(eq(repo), eq(1))).thenReturn(List.of(pr1, pr2));
 
