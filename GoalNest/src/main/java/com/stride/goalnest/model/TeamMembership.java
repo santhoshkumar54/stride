@@ -79,4 +79,13 @@ public class TeamMembership {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    public String getDuration() {
+        if (startDate == null) return "";
+        LocalDate end = (endDate != null) ? endDate : LocalDate.now();
+        long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, end);
+        long months = days / 30; // Approx
+        if (months < 1) return days + " days";
+        return months + " months";
+    }
 }

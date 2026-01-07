@@ -168,6 +168,17 @@ public class DashboardController {
         return "redirect:/employees";
     }
 
+    @GetMapping("/employees/{id}")
+    public String viewEmployeeDetails(@org.springframework.web.bind.annotation.PathVariable Long id, Model model) {
+        Employee employee = service.getEmployeeById(id);
+        if (employee == null) {
+            return "redirect:/employees";
+        }
+        model.addAttribute("employee", employee);
+        model.addAttribute("history", service.getTeamHistory(employee));
+        return "employee_details";
+    }
+
     // Teams
     @GetMapping("/teams")
     public String viewTeams(Model model) {
