@@ -17,12 +17,7 @@
         <ul>
             <li><a th:href="@{/}" th:classappend="${#httpServletRequest.requestURI == '/'} ? 'active'">Dashboard</a></li>
             <li><a th:href="@{/employees}" th:classappend="${#httpServletRequest.requestURI.startsWith('/employees')} ? 'active'">Employees</a></li>
-            <li><a th:href="@{/leaves}" th:classappend="${#httpServletRequest.requestURI.startsWith('/leaves')} ? 'active'">Leaves</a></li>
-            <li><a th:href="@{/goals}" th:classappend="${#httpServletRequest.requestURI.startsWith('/goals')} ? 'active'">Goals</a></li>
-            <li><a th:href="@{/followups}" th:classappend="${#httpServletRequest.requestURI.startsWith('/followups')} ? 'active'">Follow Ups</a></li>
-            <li><a th:href="@{/points}" th:classappend="${#httpServletRequest.requestURI.startsWith('/points')} ? 'active'">Points</a></li>
-            <li><a th:href="@{/talkingpoints}" th:classappend="${#httpServletRequest.requestURI.startsWith('/talkingpoints')} ? 'active'">1:1s</a></li>
-            <li><a th:href="@{/ratings}" th:classappend="${#httpServletRequest.requestURI.startsWith('/ratings')} ? 'active'">Ratings</a></li>
+            <li><a th:href="@{/teams}" th:classappend="${#httpServletRequest.requestURI.startsWith('/teams')} ? 'active'">Teams</a></li>
         </ul>
     </nav>
     <div class="user-controls">

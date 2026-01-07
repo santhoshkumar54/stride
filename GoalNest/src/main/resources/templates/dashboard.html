@@ -7,29 +7,16 @@
 
     <div class="card-container">
         <div class="card">
-            <h3>Leaves</h3>
-            <div class="card-stat" th:text="${leaves}">0</div>
-            <p>Pending Approvals</p>
-            <a th:href="@{/leaves}" class="card-action">Manage Leaves &rarr;</a>
-        </div>
-        <div class="card">
-            <h3>Goals</h3>
-            <div class="card-stat" th:text="${goals}">0</div>
-            <p>Active Goals</p>
-            <a th:href="@{/goals}" class="card-action">Manage Goals &rarr;</a>
-        </div>
-        <div class="card">
-            <h3>Follow Ups</h3>
-            <div class="card-stat" th:text="${followups}">0</div>
-            <p>Pending Actions</p>
-            <a th:href="@{/followups}" class="card-action">Manage Follow Ups &rarr;</a>
-        </div>
-        <!-- Adding more cards to fill the dashboard and make it look professional -->
-        <div class="card">
             <h3>Employees</h3>
             <div class="card-stat">-</div>
             <p>Team Members</p>
             <a th:href="@{/employees}" class="card-action">View Team &rarr;</a>
+        </div>
+        <div class="card">
+            <h3>Teams</h3>
+            <div class="card-stat">-</div>
+            <p>Manage Teams</p>
+            <a th:href="@{/teams}" class="card-action">View Teams &rarr;</a>
         </div>
     </div>
 </body>
