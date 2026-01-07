@@ -1,17 +1,21 @@
 package com.stride.goalnest;
 
 import com.stride.goalnest.model.Employee;
+import com.stride.goalnest.model.RepoConfig;
 import com.stride.goalnest.repository.EmployeeRepository;
+import com.stride.goalnest.repository.RepoConfigRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.OffsetDateTime;
+
 @Configuration
 public class DataSeeder {
 
     @Bean
-    CommandLineRunner initDatabase(EmployeeRepository repository, PasswordEncoder passwordEncoder) {
+    CommandLineRunner initDatabase(EmployeeRepository repository, RepoConfigRepository repoConfigRepository, PasswordEncoder passwordEncoder) {
         return args -> {
             // Check if database is empty
             if (repository.count() == 0) {
@@ -49,6 +53,12 @@ public class DataSeeder {
                 ));
 
                 System.out.println("Default users created: manager@stride.com, sm@stride.com, dev@stride.com (password: password)");
+            }
+
+            if (repoConfigRepository.count() == 0) {
+                repoConfigRepository.save(new RepoConfig("blackboard-learn", "learn", OffsetDateTime.now().minusDays(30), true));
+                repoConfigRepository.save(new RepoConfig("blackboard-learn", "ultra", OffsetDateTime.now().minusDays(30), true));
+                System.out.println("Default repos seeded: blackboard-learn/learn, blackboard-learn/ultra");
             }
         };
     }
